@@ -1,0 +1,5 @@
+<root>
+    <item name='javax.jms.TextMessage'>
+        <annotation name='java.lang.Deprecated'/>
+    </item>
+</root>
