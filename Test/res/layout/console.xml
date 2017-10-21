@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:padding="3dp"
+    android:keepScreenOn="true"
+    android:orientation="vertical"
+    android:background="@android:color/darker_gray" >
+
+   <LinearLayout
+       android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       android:layout_gravity="center"
+       android:orientation="vertical">
+        
+	    <EditText
+	        android:id="@+id/et_reception"
+	        android:layout_width="fill_parent"
+	        android:layout_height="280dp"
+	        android:layout_marginTop="3dp"
+	        android:gravity="top"
+	        android:textSize="15dp"
+	        android:hint="Reception"
+	        android:focusable="false"/>
+		<EditText
+	        android:id="@+id/et_emission"
+	        android:layout_width="fill_parent"
+	        android:layout_height="70dp"
+	        android:layout_weight="1"
+	        android:layout_marginTop="3dp"
+	        android:gravity="top"
+	        android:text="AT+DMOCONNECT"
+	        android:textSize="15dp"
+	        android:hint="Emission" />
+	</LinearLayout>
+	
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_gravity="center"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal" >
+            <Button
+                android:id="@+id/btn_reception_clear"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:text="Clear Reception"
+                android:textSize="16dp" />
+            <Button
+                android:id="@+id/btn_emission_clear"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:text="Clear Emission"
+                android:textSize="16dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal" >
+            <Button
+                android:id="@+id/btn_string2hex"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:text="HEX"
+                android:textSize="16dp" />
+            <Button
+                android:id="@+id/btn_send_emission"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:text="Send"
+                android:textSize="16dp" />
+        </LinearLayout>
+        
+    </LinearLayout>
+    
+</LinearLayout>
