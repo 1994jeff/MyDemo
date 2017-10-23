@@ -29,30 +29,32 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int ButtonSetup=0x7f0a0014;
-        public static final int LinearLayoutOutgoing=0x7f0a0007;
-        public static final int LinearLayoutReceived=0x7f0a000a;
-        public static final int TextViewIncoming=0x7f0a000b;
-        public static final int TextViewIncomingValue=0x7f0a000c;
-        public static final int TextViewOutgoing=0x7f0a0008;
-        public static final int TextViewOutgoingValue=0x7f0a0009;
-        public static final int action_settings=0x7f0a0017;
-        public static final int btn_emission_clear=0x7f0a0004;
-        public static final int btn_reception_clear=0x7f0a0003;
-        public static final int btn_send_emission=0x7f0a0006;
-        public static final int btn_string2hex=0x7f0a0005;
-        public static final int et_emission=0x7f0a0002;
-        public static final int et_reception=0x7f0a0001;
-        public static final int linearLayout1=0x7f0a0013;
-        public static final int linearLayoutCorrupted=0x7f0a0010;
-        public static final int linearLayoutLost=0x7f0a000d;
-        public static final int rspEditText=0x7f0a0000;
-        public static final int textView1=0x7f0a0015;
-        public static final int textView2=0x7f0a0016;
-        public static final int textViewCorrupted=0x7f0a0011;
-        public static final int textViewCorruptedValue=0x7f0a0012;
-        public static final int textViewLost=0x7f0a000e;
-        public static final int textViewLostValue=0x7f0a000f;
+        public static final int ButtonSetup=0x7f0a0016;
+        public static final int LinearLayoutOutgoing=0x7f0a0009;
+        public static final int LinearLayoutReceived=0x7f0a000c;
+        public static final int TextViewIncoming=0x7f0a000d;
+        public static final int TextViewIncomingValue=0x7f0a000e;
+        public static final int TextViewOutgoing=0x7f0a000a;
+        public static final int TextViewOutgoingValue=0x7f0a000b;
+        public static final int action_settings=0x7f0a0019;
+        public static final int btn_emission_clear=0x7f0a0006;
+        public static final int btn_reception_clear=0x7f0a0005;
+        public static final int btn_send_emission=0x7f0a0008;
+        public static final int btn_string2hex=0x7f0a0007;
+        public static final int et_emission=0x7f0a0004;
+        public static final int et_reception=0x7f0a0003;
+        public static final int linearLayout1=0x7f0a0015;
+        public static final int linearLayoutCorrupted=0x7f0a0012;
+        public static final int linearLayoutLost=0x7f0a000f;
+        public static final int ok=0x7f0a0001;
+        public static final int rspEditText=0x7f0a0002;
+        public static final int sendEditText=0x7f0a0000;
+        public static final int textView1=0x7f0a0017;
+        public static final int textView2=0x7f0a0018;
+        public static final int textViewCorrupted=0x7f0a0013;
+        public static final int textViewCorruptedValue=0x7f0a0014;
+        public static final int textViewLost=0x7f0a0010;
+        public static final int textViewLostValue=0x7f0a0011;
     }
     public static final class layout {
         public static final int activity_test=0x7f030000;
@@ -67,6 +69,7 @@ public final class R {
         public static final int test=0x7f090001;
     }
     public static final class string {
+        public static final int StringIsNull=0x7f070008;
         public static final int about_msg=0x7f070003;
         public static final int action_settings=0x7f070002;
         public static final int app_name=0x7f070000;

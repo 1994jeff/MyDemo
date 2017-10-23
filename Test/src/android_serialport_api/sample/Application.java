@@ -47,7 +47,7 @@ public class Application extends android.app.Application {
 			/* Open the serial port */
 			
 			mSerialPort = new SerialPort(new File(path2), baudrate, 0);
-			Log.i("dengjifu", "mSerialPort="+mSerialPort);
+			Log.i("dengjifu", "mSerialPort is null:"+(mSerialPort==null));
 		}
 		return mSerialPort;
 	}

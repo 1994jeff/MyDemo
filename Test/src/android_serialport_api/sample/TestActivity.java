@@ -1,22 +1,27 @@
 package android_serialport_api.sample;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.InvalidParameterException;
 
-import android.R.string;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Handler.Callback;
 import android.os.Message;
 import android.util.Log;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 import android_serialport_api.SerialPort;
-import android_serialport_api.sample.SerialPortActivity.ReadThread;
 import android_serialport_api.util.HexUtils;
 
 /**
@@ -31,7 +36,7 @@ public class TestActivity extends Activity implements Callback {
 	private static String path2 = "/dev/ttyMT1";
 	private static int baudrate = 38400;
 
-	private EditText rspEditText;
+	private EditText rspEditText,sendEditText;
 
 	protected Application mApplication;
 	protected SerialPort mSerialPort;
@@ -40,91 +45,120 @@ public class TestActivity extends Activity implements Callback {
 	private ReadThread mReadThread;
 
 	private String respTextString;
-
+	private Button btnSendButton;
+	
+	private boolean isRunning = true;
 	public class ReadThread extends Thread {
-
 		@Override
 		public void run() {
 			super.run();
+//			while(!isInterrupted() && isRunning){
+				try {
+					byte[] buffer = new byte[1024];
+					if (mInputStream == null) {
+						Log.i("dengjifu", "mInputStream == null");
+						return;
+					}
+					Log.i("dengjifu", Thread.currentThread().getName()+" wait read:");
+					int size = mInputStream.read(buffer);
+					Log.i("dengjifu", "size:" + size);
+					if (size > 0) {
+						onDataReceived(buffer, size);
+					}else {
+						Log.i("dengjifu", "size《0");
+					}
+					Log.i("dengjifu", Thread.currentThread().getName()+"---end--");
 
-			Log.i("dengjifu", Thread.currentThread().getName()
-					+ "--ReadThread/isInterrupted():" + isInterrupted());
-			try {
-				byte[] buffer = new byte[1024];
-				if (mInputStream == null) {
-					Log.i("dengjifu", "mInputStream == null");
+				} catch (IOException e) {
+					Log.i("dengjifu", Thread.currentThread().getName()+"---IOException-->"+e.getMessage());
+					return;
+				} catch (Exception e) {
+					Log.i("dengjifu", Thread.currentThread().getName()+"---Exception-->"+e.getMessage());
 					return;
 				}
-				Log.i("dengjifu", "ReadThread-->read");
-				int size = mInputStream.read(buffer);
-				Log.i("dengjifu", "size:" + size);
-				if (size > 0) {
-					onDataReceived(buffer, size);
-				}
-				Log.i("dengjifu", Thread.currentThread().getName()
-						+ "--ReadThread/isInterrupted():" + isInterrupted());
-			} catch (IOException e) {
-				e.printStackTrace();
-				return;
 			}
-		}
+//		}
+	}
+
+	private void DisplayError(int resourceId) {
+		AlertDialog.Builder b = new AlertDialog.Builder(this);
+		b.setTitle("Error");
+		b.setMessage(resourceId);
+		b.setPositiveButton("OK", new OnClickListener() {
+			public void onClick(DialogInterface dialog, int which) {
+				TestActivity.this.finish();
+			}
+		});
+		b.show();
 	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_test);
 
 		rspEditText = (EditText) findViewById(R.id.rspEditText);
-		rspEditText.setSaveEnabled(false);
+		sendEditText = (EditText) findViewById(R.id.sendEditText);
+		btnSendButton = (Button) findViewById(R.id.ok);
+		
+		// 上电GPIO
+		pownOn(SamCard1);
+		pownOn(SamCard2);
+		
+		//打开端口
+		openSerialPort();
+
+		//点击发送AT指令
+		btnSendButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				String cmdString = sendEditText.getText().toString();
+				if(!cmdString.equals("")){
+					mReadThread = new ReadThread();
+					mReadThread.start();
+					// 发送AT指令
+					sendATCmds(cmdString);
+				}else{
+					DisplayError(R.string.StringIsNull);
+				}
+			}
+		});
+	}
+
+	private void openSerialPort() {
 		mApplication = (Application) getApplication();
 		try {
 			// 串口操作初始化
 			mSerialPort = mApplication.getSerialPort();
 			mOutputStream = mSerialPort.getOutputStream();
 			mInputStream = mSerialPort.getInputStream();
-			mReadThread = new ReadThread();
-			mReadThread.start();
-		} catch (InvalidParameterException e1) {
-			e1.printStackTrace();
-		} catch (SecurityException e1) {
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-
-		// 上电GPIO
-		pownOn(SamCard1);
-		pownOn(SamCard2);
-
-		// 发送AT指令
-		try {
-			sendATCmds();
+			
 		} catch (SecurityException e) {
-			e.printStackTrace();
+			DisplayError(R.string.error_security);
 		} catch (IOException e) {
-			e.printStackTrace();
+			DisplayError(R.string.error_unknown);
+		} catch (InvalidParameterException e) {
+			DisplayError(R.string.error_configuration);
 		}
-
 	}
 
-	private void sendATCmds() throws SecurityException, IOException {
+	private void sendATCmds(final String cmdString){
 		Runnable sendCmdRunnable = new Runnable() {
 			@Override
 			public void run() {
 				try {
-					// 66 00 00 00 00 00 00 02 00 00 60
-					String cmd = new String("6200000000000200000060");
-					byte[] buffer = HexUtils.HexToByteArr(cmd);
-					Log.i("dengjifu", mOutputStream + ":" + buffer);
+					//6600000000000002000060
+					//6b08000000000000000040a1058f2001000029
+					byte[] buffer = HexUtils.HexToByteArr("6200000000000200000060");
+					Log.i("dengjifu", "mOutputStream is null:" + (mOutputStream==null));
 					mOutputStream.write(buffer);
-					mOutputStream.write('\r');
 					mOutputStream.write('\n');
 					Log.i("dengjifu",
-							"Send AT command: " + HexUtils.byte2HexStr(buffer));
+							"Send AT command success: " + HexUtils.byte2HexStr(buffer));
 				} catch (Exception e) {
-					e.printStackTrace();
-				}
+					Log.i("dengjifu","Send AT command failed: " + e.getMessage());				}
 			}
 		};
 		new Thread(sendCmdRunnable).start();
@@ -145,8 +179,39 @@ public class TestActivity extends Activity implements Callback {
 	}
 
 	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		isRunning = false;
+		if(mReadThread!=null){
+			mReadThread.interrupt();
+		}
+		if(mInputStream!=null){
+			mInputStream=null;
+		}
+		if(mOutputStream!=null){
+			mOutputStream=null;
+		}
+		if(mSerialPort!=null){
+			mSerialPort=null;
+		}
+	}
+	
+	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+		isRunning = false;
+		if(mReadThread!=null){
+			mReadThread.interrupt();
+		}
+		if(mInputStream!=null){
+			mInputStream=null;
+		}
+		if(mOutputStream!=null){
+			mOutputStream=null;
+		}
+		if(mSerialPort!=null){
+			mSerialPort=null;
+		}
 	}
 
 	protected void onDataReceived(byte[] buffer, int size) {
@@ -165,7 +230,6 @@ public class TestActivity extends Activity implements Callback {
 		case 1:
 			rspEditText.setText(respTextString);
 			break;
-
 		default:
 			break;
 		}

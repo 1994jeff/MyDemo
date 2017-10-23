@@ -20,6 +20,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 
 public class MainMenu extends Activity {
@@ -28,15 +30,17 @@ public class MainMenu extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+        
+		setContentView(R.layout.main);
 
         final Button buttonSetup = (Button)findViewById(R.id.ButtonSetup);
         buttonSetup.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 //				startActivity(new Intent(MainMenu.this, SerialPortPreferences.class));
 				Intent intent=new Intent(MainMenu.this, TestActivity.class);
-//				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//				intent.setFlags(Intent.);
 				startActivity(intent);
 			}
 		});
@@ -81,6 +85,6 @@ public class MainMenu extends Activity {
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
-//		System.exit(0);
+		System.exit(0);
 	}
 }

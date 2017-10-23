@@ -29,5 +29,5 @@
     <string name="error_unknown">The serial port can not be opened for an unknown
 			reason.</string>
     <string name="title_activity_test">TestActivity</string>
-
+	<string name="StringIsNull">Sorry,Please input the command!</string>
 </resources>
