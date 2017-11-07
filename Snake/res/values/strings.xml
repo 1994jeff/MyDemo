@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Snake</string>
+    <string name="openRank">open rank</string>
+    <string name="closeSound">close sound</string>
+    <string name="openSound">open sound</string>
+    <string name="clearRankData">clear rank data</string>
+    <string name="title_activity_menu">MenuActivity</string>
+    <string name="title_activity_menus">MenusActivity</string>
+    <string name="title_activity_game_over">GameOverActivity</string>
+    <string name="gameOver">Sorry,Game Over,Please input game name!</string>
+    <string name="open_level_error">Please complete this game and then set the game speed！</string>
+    <string name="order">ORDER</string>
+    <string name="score">SCORE</string>
+    <string name="name">NAME</string>
+    <string name="ok">ok</string>
+    <string name="cancel">cancel</string>
+    <string name="operation">operation</string>
+    <string name="back">back</string>
+
+</resources>
