@@ -15,7 +15,7 @@ public class AppConsuner {
         Connection connection;
         final Session session;
         Destination destination = null;
-
+        int i = 10;
         try {
 
             connection = connectionFactory.createConnection();
