@@ -1,0 +1,40 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="android_serialport_api.sample.TestActivity" >
+
+     <ScrollView
+         android:layout_width="match_parent"
+         android:layout_height="match_parent" >
+
+        <LinearLayout 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+             <EditText 
+		        android:id="@+id/sendEditText"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:hint="command"
+		        android:text="6b080000000007000000405002000000000076"
+		        />
+     
+		     <Button 
+		        android:id="@+id/ok"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:text="start test"/>
+		     
+		      <EditText 
+		        android:id="@+id/rspEditText"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:hint="response"
+		        />
+        </LinearLayout>
+     </ScrollView>
+    
+</LinearLayout>

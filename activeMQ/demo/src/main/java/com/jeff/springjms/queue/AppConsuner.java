@@ -16,6 +16,7 @@ public class AppConsuner {
         final Session session;
         Destination destination = null;
         int i = 10;
+	boolean test;
         try {
 
             connection = connectionFactory.createConnection();

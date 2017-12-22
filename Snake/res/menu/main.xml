@@ -1,0 +1,26 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.snake.MainActivity" >
+
+    <item
+        android:id="@+id/openRank"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/openRank"
+        />
+    
+    <item
+        android:id="@+id/closeSound"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/closeSound"
+        />
+    
+    <item
+        android:id="@+id/clearRankData"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/clearRankData"
+        />
+
+</menu>
